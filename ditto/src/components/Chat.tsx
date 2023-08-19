@@ -37,7 +37,6 @@ const Chat: FC<ChatProps> = ({ messages, dataChange }) => {
 
   const sendMessage = () => {
     if (inputValue.trim() !== "") {
-      // Perform the logic to send the message
       messages.push({
         id: messages.length,
         image: "/images/profiles/user.jpeg",
@@ -61,7 +60,6 @@ const Chat: FC<ChatProps> = ({ messages, dataChange }) => {
     }
   };
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
