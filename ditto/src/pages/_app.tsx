@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import "@/styles/chat.scss";
+import "@/styles/chatItem.scss";
 import type { AppProps } from "next/app";
 import 'regenerator-runtime/runtime'
 
