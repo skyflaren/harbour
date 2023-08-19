@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import Collapsible from "@/components/Collapsible";
 import { Lesson } from "@/types";
-import { Card } from "@/components";
+import { Card, DropdownMenu } from "@/components";
 
 export default function Home() {
+  const [difficulty, setDifficulty] = useState<string>("Beginner");
+  const [language, setLanguage] = useState<string>("English");
+
   var lessons: Lesson[] = [
     {
       id: 0,
@@ -64,9 +67,26 @@ export default function Home() {
 
       <Collapsible content="This is the content of the collapsible section." />
 
+      <div className="language-select">
+        <DropdownMenu
+          title="Difficulty"
+          options={["Beginner", "Intermediate", "Fluent"]}
+          value={difficulty}
+          onSelect={setDifficulty}
+        />
+        <DropdownMenu
+          title="Language"
+          options={["English", "Chinese", "French", "Roseanna"]}
+          value={language}
+          onSelect={setLanguage}
+        />
+      </div>
+
       <div className="card-grid">
         {lessons.map((item) => (
-          <a href={item.link}>
+          <a
+            href={`${item.link}?language=${language}&difficulty=${difficulty}`}
+          >
             <Card
               key={item.id}
               image={item.image}

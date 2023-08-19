@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
-import { Chat, Settings } from "@/components";
+import { Chat } from "@/components";
 import { Message } from "@/types";
 
 export default function Lesson1() {
   var messages: Message[] = [];
   const userImage = "/images/profiles/user.jpeg";
   const botImage = "/images/profiles/bot.jpeg";
-  const [settings, setSettings] = useState<boolean>(true);
+
+  var difficulty, language;
 
   const messagesChange = () => {
     getBotResponse();
@@ -24,22 +25,16 @@ export default function Lesson1() {
     });
   };
 
-  const continueLevel = (difficulty: string, language: string) => {
-    console.log(difficulty + " " + language); // TODO: implement later
-    setSettings(false);
-  };
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    difficulty = urlSearchParams.get("difficulty");
+    language = urlSearchParams.get("language");
+    console.log(difficulty + " " + language);
+  }, []);
 
   return (
     <div className="lesson1">
-      {settings && (
-        <Settings
-          level="Walking and Talking"
-          intro="Enter Bill and Bob's fruit kabob shop and talk with Bill"
-          objectives={["name of cat", "favourite fruit", "mother's name"]}
-          onContinue={continueLevel}
-        />
-      )}
-      {!settings && <Chat messages={messages} dataChange={messagesChange} />}
+      <Chat messages={messages} dataChange={messagesChange} />
     </div>
   );
 }
