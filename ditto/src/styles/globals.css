@@ -16,12 +16,11 @@
   }
 }
 
+html {
+  height: 100%;
+  overflow: auto;
+}
+
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  height: 100%;
 }
