@@ -1,4 +1,4 @@
-import { Chat } from "@/components";
+import { TextToSpeech, Chat } from "@/components";
 import { Message } from "@/types";
 
 export default function Lesson1() {
@@ -11,19 +11,21 @@ export default function Lesson1() {
   };
 
   const getBotResponse = () => {
-    // TODO: add real api bot response
     messages.push({
       id: messages.length,
       image: botImage,
       name: "bot",
-      text: "bonjour je suis un chat bot ceci est un exemple de message.",
+      text: "bot response",
       user: false,
     });
   };
 
+  const text = "No library required To Build a Text-to-Speech component in React.";
   return (
     <div className="lesson1">
       <Chat messages={messages} dataChange={messagesChange} />
+      <TextToSpeech text={String(messages.at(-1))} />
+      <p>{String(messages.at(-1))}</p>
     </div>
-  );
-}
+  )
+};

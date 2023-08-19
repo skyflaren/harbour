@@ -13,34 +13,6 @@
     @apply w-1/6 bg-gray-700 text-right p-20 fixed top-0 right-0 h-[100vh];
   }
 
-  .chat-item {
-    @apply flex align-bottom relative py-2 w-full;
-
-    .image {
-      @apply w-8 h-8 absolute bottom-0 mb-2;
-
-      img {
-        border-radius: 50%;
-      }
-    }
-
-    .content {
-      @apply max-w-lg mx-12;
-
-      .text {
-        @apply flex flex-col w-full max-w-lg bg-gray-200 px-5 py-2 rounded-md;
-      }
-    }
-
-    &.left {
-      @apply items-start;
-    }
-
-    &.right {
-      @apply justify-end;
-    }
-  }
-
   .input-bar {
     @apply flex fixed bottom-0 left-40 bg-gray-50 pb-14;
     width: calc(83.3333% - 320px);
