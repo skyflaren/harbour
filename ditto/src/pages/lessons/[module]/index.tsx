@@ -12,11 +12,22 @@ const capitalize = (s: string) => {
   return s.charAt(0).toUpperCase() + s.slice(1);
 } 
 
+
+
 export default function Page() {
   const router = useRouter();
   const moduleName = router.query.module as string;
+
+  const getBody = () => {
+    return {
+      moduleName: moduleName,
+    }
+  }
+  console.log("MODULE NAME", moduleName);
+
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-    api: '/api/openai/generate'
+    api: '/api/openai/generate',
+    body: getBody(),
   })
 
   const json = useJson(moduleName);
@@ -24,7 +35,7 @@ export default function Page() {
   if (!moduleList.includes(moduleName)) {
     return (
       <div>
-        Sorry this module does not exist
+        Sorry this module does not exist.
       </div>
     )
   }

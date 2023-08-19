@@ -22,6 +22,7 @@
     "autoprefixer": "^10.4.15",
     "axios": "^1.4.0",
     "eventsource-parser": "^1.0.0",
+    "langchain": "^0.0.131",
     "next": "13.4.19",
     "openai": "^4.0.1",
     "openai-edge": "^1.2.2",
