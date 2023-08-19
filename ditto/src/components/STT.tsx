@@ -36,15 +36,10 @@ function SpeechToText() {
 
 
   return (
-    <div>
-      <div>
-        <div ref={microphoneRef} onClick={isActive ? stopHandle : handleListing}>
-          <img src={isActive ? startIcon : endIcon }/>
-        </div>
-        <div>
-          {isActive ? "Listening........." : "Click to start Listening"}
-        </div>
-      </div>
+    <div className="stt w-8">
+      <button className="input-button w-6" ref={microphoneRef} onClick={isActive ? stopHandle : handleListing}>
+        <img src={isActive ? startIcon : endIcon }/>
+      </button>
 
       {transcript && (
         <div>
