@@ -1,6 +1,8 @@
 import "@/styles/globals.css";
+import "@/styles/main_menu.css";
 import "@/styles/chat.scss";
-import type { AppProps } from "next/app";
+import "@/styles/card.scss";
+import "@/styles/chatItem.scss";
 import {
   useQuery,
   useMutation,
@@ -8,6 +10,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import 'regenerator-runtime/runtime'
+import type { AppProps } from "next/app";
 
 const queryClient = new QueryClient()
 
