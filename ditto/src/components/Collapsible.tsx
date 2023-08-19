@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from "react";
 
-const Collapsible =()=> {
+interface CollapsibleProps {
+  content: string;
+}
+
+const Collapsible: FC<CollapsibleProps> = ({ content }) => {
   const [open, setOpen] = useState(false);
-  return(
-    <div>
-      <button>toggle</button>
-      {open && <div>toggle me</div>}
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
+
+  return (
+    <div className="handleToggle">
+      <button onClick={handleToggle}>toggle</button>
+      {open && <p>{content}</p>}
     </div>
   );
 };
 
-export default Collapsible
+export default Collapsible;
