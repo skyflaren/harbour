@@ -19,7 +19,7 @@ export default function Lesson1() {
       id: messages.length,
       image: botImage,
       name: "bot",
-      text: "bot response",
+      text: "bonjour je suis un chat bot ceci est un exemple de message.",
       user: false,
     });
   };
