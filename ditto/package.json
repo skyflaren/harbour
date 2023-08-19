@@ -15,14 +15,19 @@
     "@types/node": "20.5.1",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
-    "autoprefixer": "^10.4.15",
+    "ai": "^2.2.6",
+    "autoprefixer": "10.4.15",
+    "eventsource-parser": "^1.0.0",
     "next": "13.4.19",
     "postcss": "^8.4.28",
     "react": "^18.2.0",
     "openai": "^4.0.1",
+    "openai-edge": "^1.2.2",
     "react-dom": "18.2.0",
+    "sse": "^0.0.8",
+    "sse-ts": "^1.0.2",
+    "tailwindcss": "3.3.3",
     "sass": "^1.66.1",
-    "tailwindcss": "^3.3.3",
     "typescript": "5.1.6"
   }
 }
