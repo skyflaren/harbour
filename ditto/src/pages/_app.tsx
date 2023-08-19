@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import "@/styles/chat.scss";
-import "@/styles/settings.css";
+import "@/styles/settings.scss";
 
 import type { AppProps } from "next/app";
 

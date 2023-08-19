@@ -1,33 +1,34 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState } from "react";
 
 interface DropdownMenuProps {
+  title: string;
   options: string[];
+  value: string;
+  onSelect: (value: string) => void;
 }
 
-const DropdownMenu: FC<DropdownMenuProps> = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
+const DropdownMenu: FC<DropdownMenuProps> = ({
+  options,
+  title,
+  value,
+  onSelect,
+}) => {
   return (
     <div className="dropdown">
-      <button onClick={toggleDropdown} className="dropdown-toggle">
-        {props.options[0]}
-      </button>
-      {isOpen && (
-        <ul className="dropdown-list">
-          options.length()
-          <li>options</li>
-          <li>sdf</li>
-          <li>sdf</li>
-        </ul>
-      )}
+      <div className="title">{title}</div>
+      <select
+        name="items"
+        id="items"
+        value={value}
+        onChange={(e) => onSelect(e.target.value)}
+      >
+        {options.map((element) => (
+          <option key={element} value={element}>
+            {element}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };
-
 export default DropdownMenu;
