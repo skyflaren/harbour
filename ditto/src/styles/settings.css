@@ -1,0 +1,23 @@
+.settings{
+   margin:150px; 
+}
+
+.title{
+    margin-top: 100px;
+    font-size: 50px;
+    color:black;
+    font-weight: bold;
+}
+
+.objectives{
+    margin-top: 20px;
+}
+
+.dropdown-toggle{
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.dropdown-list{
+    color: rgb(0, 255, 94);
+}
