@@ -1,3 +1,6 @@
+import React, { useEffect } from "react";
+
+import { Chat } from "@/components";
 import { TextToSpeech, SpeechToText, Chat } from "@/components";
 import { Message } from "@/types";
 
@@ -5,6 +8,8 @@ export default function Lesson1() {
   var messages: Message[] = [];
   const userImage = "/images/profiles/user.jpeg";
   const botImage = "/images/profiles/bot.jpeg";
+
+  var difficulty, language;
 
   const messagesChange = () => {
     getBotResponse();
@@ -20,6 +25,13 @@ export default function Lesson1() {
       user: false,
     });
   };
+
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    difficulty = urlSearchParams.get("difficulty");
+    language = urlSearchParams.get("language");
+    console.log(difficulty + " " + language);
+  }, []);
 
   return (
     <div className="lesson1">
