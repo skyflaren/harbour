@@ -42,3 +42,15 @@ export interface OpenAIStreamPayload {
   stream: boolean;
   n: number;
 }
+
+export type Objective = {
+  objective: string,
+  answer: string,
+}
+
+export type ModuleJSON = {
+  module: string,
+  scenario: string,
+  objectives: Objective[],
+  character_prompt: string,
+}

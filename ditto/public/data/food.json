@@ -1,0 +1,12 @@
+{
+  "module": "food",
+  "setting": "restaurant",
+  "scenario": "You are at a restaurant preparing to dine",
+  "objectives": [
+    {
+      "objective": "Determine the name of the restaurant",
+      "answer": "Cheesecake Factory"
+    }
+  ],
+  "character_prompt": "You are a {language} waiter at the Cheesecake Factory. You are currently interacting with a customer who is a beginner at {language}."
+}
