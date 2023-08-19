@@ -13,8 +13,10 @@ const ChatItem: FC<ChatProps> = ({ image, name, text, user }) => {
       <div className={`image ${user ? "right" : "left"}`}>
         <img src={image} />
       </div>
-      <div className={`content ${user ? "right" : "left"}`}>
-        <div className="name">{name}</div>
+      <div className="content">
+        <div className={`name ${user ? "text-right" : "text-left"}`}>
+          {name}
+        </div>
         <div className="text">{text}</div>
       </div>
     </div>
