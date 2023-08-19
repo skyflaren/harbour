@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import axios from "axios";
 
 interface ChatProps {
   image: string;
@@ -12,7 +11,8 @@ const ChatItem: FC<ChatProps> = ({ image, name, text, user }) => {
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   const [selected, setSelected] = useState<string>("");
-  const textRef = useRef<HTMLDivElement | null>(null); // Add this ref
+  const textRef = useRef<HTMLDivElement | null>(null);
+  const [translated, setTranslated] = useState<string>("");
 
   const handleGlobalClick = (event: MouseEvent) => {
     if (textRef.current && !textRef.current.contains(event.target as Node)) {
@@ -39,12 +39,19 @@ const ChatItem: FC<ChatProps> = ({ image, name, text, user }) => {
   const getTranslation = async () => {
     if (user) return;
     try {
-      const response = await axios.post("/api/translate/translate", {
-        selected,
+      const response = await fetch("/api/translate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          selected,
+        }),
       });
 
-      console.log("Response:", response.data);
+      setTranslated(JSON.parse(await response.text()).message);
     } catch (error) {
+      setTranslated("Sorry, there was an error translating.");
       console.error("Error:", error);
     }
   };
@@ -68,10 +75,11 @@ const ChatItem: FC<ChatProps> = ({ image, name, text, user }) => {
       </div>
       <div className="translate">
         {selected != "" && (
-          <button className="translateButton">
+          <button className="translateButton" onClick={getTranslation}>
             Translate highlighted text
           </button>
         )}
+        {translated != "" && <p>{translated}</p>}
       </div>
     </div>
   );
