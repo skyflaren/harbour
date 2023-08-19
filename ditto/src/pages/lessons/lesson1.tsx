@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 
-import { Chat } from "@/components";
 import { TextToSpeech, SpeechToText, Chat } from "@/components";
 import { Message } from "@/types";
 
