@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+
 library.add(faPaperPlane);
 
 interface ChatProps {
@@ -21,8 +23,8 @@ const Chat: FC<ChatProps> = ({ messages, dataChange }) => {
   const [inputValue, setInputValue] = useState("");
   const scrollItemRef = useRef<HTMLDivElement | null>(null);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+  const handleInputChange = (tv: React.ChangeEvent<HTMLInputElement>["target"]["value"]) => {
+    setInputValue(tv);
   };
 
   const handleSendClick = () => {
@@ -59,6 +61,33 @@ const Chat: FC<ChatProps> = ({ messages, dataChange }) => {
       });
     }
   };
+  
+  const { transcript, resetTranscript } = useSpeechRecognition();
+  const [isActive, setIsActive] = useState(false); // 0 = Playing, 1 = Paused (Resume), 2 = Start
+
+  const microphoneRef = useRef<any>(null);
+  const startIcon = "/images/icons/mic.svg";
+  const endIcon = "/images/icons/mic-off.svg";
+
+  const handleListing = () => {
+    setInputValue(inputValue);
+    setIsActive(true);
+    microphoneRef.current.classList.add("listening");
+    resetTranscript();
+    SpeechRecognition.startListening({
+      continuous: true,
+      language: 'zh-CN',
+    });
+  };
+  const stopHandle = () => {
+    microphoneRef.current.classList.remove("listening");
+    SpeechRecognition.stopListening();
+    
+    console.log(transcript);
+    handleInputChange(inputValue+transcript);
+    setIsActive(false);
+    resetTranscript();
+  };
 
   useEffect(() => {
     scrollToBottom();
@@ -80,15 +109,21 @@ const Chat: FC<ChatProps> = ({ messages, dataChange }) => {
           ))}
           <div ref={scrollItemRef} className="scroll-item" />
         </div>
-        <div className="input-bar">
+        <div className="input-bar flex flexrow">
           <input
             type="text"
             name="message"
             placeholder="Send a message"
             value={inputValue}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e.target.value)}
             onKeyPress={handleKeyPress}
           />
+          <div className="stt w-8">
+            <button className="input-button w-6" ref={microphoneRef} onClick={isActive ? stopHandle : handleListing}>
+              <img src={isActive ? startIcon : endIcon }/>
+            </button>
+            {/* <button onClick={handleReset}>Reset</button> */}
+          </div>
           <button className="input-button" onClick={handleSendClick}>
             <FontAwesomeIcon
               icon={faPaperPlane}
