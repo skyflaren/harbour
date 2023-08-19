@@ -4,7 +4,7 @@
   .chat-wrapper {
     @apply w-5/6 h-full px-40 py-11;
 
-    .chat-items {
+    .scroll-item {
       @apply pb-32;
     }
   }
@@ -50,11 +50,15 @@
   }
 
   .input-bar {
-    @apply w-5/6 fixed bottom-0 left-40 bg-gray-50 pb-14;
+    @apply flex w-5/6 fixed bottom-0 left-40 bg-gray-50 pb-14;
     width: calc(83.3333% - 320px);
 
     input {
       @apply w-full px-4 py-3 border rounded-md;
+    }
+
+    .input-button {
+      @apply text-lg absolute right-4 top-2.5;
     }
   }
 }

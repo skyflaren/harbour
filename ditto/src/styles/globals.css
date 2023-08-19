@@ -15,3 +15,12 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+
+html {
+  height: 100%;
+  overflow: auto;
+}
+
+body {
+  height: 100%;
+}
