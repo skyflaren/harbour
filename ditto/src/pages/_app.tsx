@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import "@/styles/main_menu.css";
+import "@/styles/main_menu.scss";
 import "@/styles/chat.scss";
 import "@/styles/card.scss";
 import "@/styles/chatItem.scss";

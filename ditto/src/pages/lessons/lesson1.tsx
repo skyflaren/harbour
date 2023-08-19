@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 import { Chat } from "@/components";
+import { TextToSpeech, SpeechToText, Chat } from "@/components";
 import { Message } from "@/types";
 
 export default function Lesson1() {
@@ -35,6 +36,8 @@ export default function Lesson1() {
   return (
     <div className="lesson1">
       <Chat messages={messages} dataChange={messagesChange} />
+      <TextToSpeech text={String(messages.at(-1))} />
+      <p>{String(messages.at(-1))}</p>
     </div>
   );
 }
