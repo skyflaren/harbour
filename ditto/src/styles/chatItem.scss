@@ -6,7 +6,7 @@
   }
 
   .image {
-    @apply w-8 h-8 absolute bottom-0 mb-2;
+    @apply w-8 h-8 absolute bottom-0 mb-6;
 
     img {
       border-radius: 50%;
@@ -25,16 +25,8 @@
     }
   }
 
-  &.left {
-    @apply items-start;
-  }
-
-  &.right {
-    @apply justify-end;
-  }
-
   .translate {
-    @apply h-4 text-sm w-96 text-left;
+    @apply h-4 text-sm w-96 text-left ml-12;
 
     .translateButton {
       @apply h-4 text-sm;

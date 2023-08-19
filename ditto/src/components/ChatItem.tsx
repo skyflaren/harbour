@@ -50,21 +50,19 @@ const ChatItem: FC<ChatProps> = ({ image, name, text, user }) => {
   };
 
   return (
-    <div className={`chat-item ${user ? "right" : "left"}`}>
+    <div className={`chat-item ${user ? "right-user" : "left-user"}`}>
       <div className="content-wrapper">
         <div
-          className={`content ${user ? "flex-row-reverse" : ""}`}
+          className="content"
           ref={contentRef}
-          onMouseMove={handleTextHighlight}
+          onMouseUp={handleTextHighlight}
         >
-          <div className={`name ${user ? "text-right" : "text-left"}`}>
-            {name}
-          </div>
+          <div className="name">{name}</div>
           <div className="text" ref={textRef}>
             {text}
           </div>
         </div>
-        <div className={`image ${user ? "right" : "left"}`}>
+        <div className="image">
           <img src={image} />
         </div>
       </div>
