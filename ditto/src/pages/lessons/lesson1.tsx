@@ -1,4 +1,4 @@
-import { Chat } from "@/components";
+import { Chat, Settings } from "@/components";
 import { Message } from "@/types";
 
 export default function Lesson1() {
@@ -24,6 +24,12 @@ export default function Lesson1() {
   return (
     <div className="lesson1">
       <Chat messages={messages} dataChange={messagesChange} />
+      <Settings 
+      level="Walking and Talking" 
+      intro="Enter Bill and Bob's fruit kabob shop and talk with Bill" 
+      objectives={["name of cat", "favourite fruit", "mother's name"]} />
+
     </div>
   );
 }
+
