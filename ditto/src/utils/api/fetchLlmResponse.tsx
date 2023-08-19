@@ -1,6 +1,6 @@
 import { ChatCompletion, MessageResponse } from "@/types";
 
-export const fetchLLMResponse = async (prompt: string): Promise<ReadableStream<Uint8Array> | null> => {
+export const fetchLLMResponse = async (prompt: string): Promise<Response> => {
   const response = await fetch("/api/openai/generate", {
     method: "POST",
     headers: {
@@ -11,10 +11,5 @@ export const fetchLLMResponse = async (prompt: string): Promise<ReadableStream<U
     }),
   });
 
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
-
-  const data = response.body;
-  return data;
+  return response;
 }
