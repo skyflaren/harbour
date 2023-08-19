@@ -31,6 +31,7 @@ const ChatItem: FC<ChatProps> = ({ image, name, text, user }) => {
     if (user) return;
     const selectedText = window.getSelection()?.toString();
     if (selectedText) {
+      setTranslated("");
       console.log("Highlighted text:", selectedText);
       setSelected(selectedText);
     }
