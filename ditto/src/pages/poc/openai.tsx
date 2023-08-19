@@ -1,19 +1,14 @@
-// Basic page with text input field and button to query backend API
-import { fetchLLMResponse } from '@/api/fetchLLMResponse';
 import { useState } from 'react';
+import { fetchLLMResponse } from '@/utils/api/fetchLlmResponse';
+import { useChat } from 'ai/react'
+
 
 export default function Page() {
-  const [prompt, setPrompt] = useState('');
-  const [response, setResponse] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleClick = async () => {
-    console.log("SENDING", prompt)
-    const gptResponse = await fetchLLMResponse(prompt);
-
-    console.log(gptResponse);
-
-    setResponse(gptResponse.choices[0].message.content ?? "Failed to return content");
-  };
+  const { messages, input, handleInputChange, handleSubmit } = useChat({
+    api: '/api/openai/generate'
+  })
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -23,20 +18,41 @@ export default function Page() {
         </h1>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <input 
-          type="textArea" 
-          placeholder="Enter prompt here" 
-          value={prompt} 
-          onChange={(e) => setPrompt(e.target.value)}
-          className={"text-black outline-none"}
-        />
-        <button className={"bg-slate-300 rounded p-2"} onClick={() => handleClick()}>Submit</button>
+      <div className="w-full max-w-xl">
+        <form onSubmit={handleSubmit}>
+          <textarea
+            value={input}
+            onChange={handleInputChange}
+            rows={4}
+            maxLength={200}
+            className="focus:ring-neu w-full rounded-md border border-neutral-400
+            p-4 text-neutral-900 shadow-sm placeholder:text-neutral-400 focus:border-neutral-900"
+            placeholder={"Enter prompt here..."}
+          />
 
-        {/* Prompt response from api */}
-        <p className="text-white">
-          {response}
-        </p>
+          {!loading ? (
+            <button
+              className="w-full rounded-xl bg-neutral-900 px-4 py-2 font-medium text-white hover:bg-black/80"
+            >
+              Generate Response &rarr;
+            </button>
+          ) : (
+            <button
+              disabled
+              className="w-full rounded-xl bg-neutral-900 px-4 py-2 font-medium text-white"
+            >
+              <div className="animate-pulse font-bold tracking-widest">...</div>
+            </button>
+          )}
+
+        </form>
+
+        {messages.map(m => (
+          <div key={m.id}>
+            {m.role}: {m.content}
+          </div>
+        ))}
+
       </div>
     </div>
          
