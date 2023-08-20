@@ -54,3 +54,6 @@ export type ModuleJSON = {
   objectives: Objective[],
   character_prompt: string,
 }
+
+export type VercelHandleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => void;
+export type VercelHandleSubmit = (e: React.FormEvent<HTMLFormElement>, chatRequestOptions?: any) => void

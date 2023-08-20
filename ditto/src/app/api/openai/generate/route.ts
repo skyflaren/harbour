@@ -20,7 +20,6 @@ export async function POST(req: Request) {
   // Extract the `messages` from the body of the request
   const body = await req.json();
   const messages = body.messages ?? [] as VercelChatMessage[];
-  console.log(req);
   const { moduleName } = body;
 
   // Get the module content from the JSON file

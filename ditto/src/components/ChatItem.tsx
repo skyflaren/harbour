@@ -1,18 +1,28 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 
 interface ChatProps {
-  image: string;
-  name: string;
+  role: string;
   text: string;
-  user: boolean;
 }
 
-const ChatItem: FC<ChatProps> = ({ image, name, text, user }) => {
+const ChatItem: FC<ChatProps> = ({ 
+  role,
+  text
+}) => {
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   const [selected, setSelected] = useState<string>("");
   const textRef = useRef<HTMLDivElement | null>(null);
   const [translated, setTranslated] = useState<string>("");
+
+  const isUser = role === "user";
+
+  const imageSrc = new Map<string, string>([
+    ["user", "/images/profiles/user.jpeg"],
+    ["assistant", "/images/profiles/assistant.jpeg"],
+    ["system", "/images/profiles/system.jpeg"],
+    ["function", "/images/profiles/function.jpeg"] // This doesn't have an image right now
+  ]);
 
   const handleGlobalClick = (event: MouseEvent) => {
     if (textRef.current && !textRef.current.contains(event.target as Node)) {
@@ -28,7 +38,7 @@ const ChatItem: FC<ChatProps> = ({ image, name, text, user }) => {
   }, []);
 
   const handleTextHighlight = () => {
-    if (user) return;
+    if (isUser) return;
     const selectedText = window.getSelection()?.toString();
     if (selectedText) {
       setTranslated("");
@@ -38,7 +48,7 @@ const ChatItem: FC<ChatProps> = ({ image, name, text, user }) => {
   };
 
   const getTranslation = async () => {
-    if (user) return;
+    if (isUser) return;
     try {
       const response = await fetch("/api/translate", {
         method: "POST",
@@ -58,20 +68,20 @@ const ChatItem: FC<ChatProps> = ({ image, name, text, user }) => {
   };
 
   return (
-    <div className={`chat-item ${user ? "right-user" : "left-user"}`}>
+    <div className={`chat-item ${isUser ? "right-user" : "left-user"}`}>
       <div className="content-wrapper">
         <div
           className="content"
           ref={contentRef}
           onMouseUp={handleTextHighlight}
         >
-          <div className="name">{name}</div>
+          {/* <div className="name">{name}</div> */}
           <div className="text" ref={textRef}>
             {text}
           </div>
         </div>
         <div className="image">
-          <img src={image} />
+          <img src={imageSrc.get(role)} />
         </div>
       </div>
       <div className="translate">
