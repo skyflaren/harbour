@@ -1,13 +1,16 @@
 import React, { FC, useState, useRef, useEffect, use } from "react";
+import Link from "next/link";
 import ChatItem from "./ChatItem";
 import { Message } from "ai";
 
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faAnchor, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { VercelHandleInputChange, VercelHandleSubmit } from "@/types";
+import { Objective, VercelHandleInputChange, VercelHandleSubmit } from "@/types";
 
-import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
-import { SubmitButton } from "./SubmitButton";
+import { ChatInput } from "./ChatInput";
+import { capitalize } from "@/utils/capitalize";
+import { ObjectiveCard } from "./ObjectiveCard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 library.add(faPaperPlane);
   
@@ -16,7 +19,10 @@ interface ChatProps {
   input: string;
   setInput: (input: string) => void;
   handleInputChange: VercelHandleInputChange
-  handleSubmit: VercelHandleSubmit
+  handleSubmit: VercelHandleSubmit,
+  moduleTitle: string | undefined,
+  moduleScenario: string | undefined,
+  moduleObjectives: Objective[] | undefined,
 }
 
 const Chat: FC<ChatProps> = ({ 
@@ -24,22 +30,15 @@ const Chat: FC<ChatProps> = ({
   input,
   setInput,
   handleInputChange,
-  handleSubmit 
+  handleSubmit,
+  moduleTitle,
+  moduleScenario,
+  moduleObjectives,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const scrollItemRef = useRef<HTMLDivElement | null>(null);
 
-  const { transcript, resetTranscript } = useSpeechRecognition();
-  const [isActive, setIsActive] = useState(false); // 0 = Playing, 1 = Paused (Resume), 2 = Start
-
-  const microphoneRef = useRef<any>(null);
-  const startIcon = "/images/icons/mic.svg";
-  const endIcon = "/images/icons/mic-off.svg";
-
-  const _handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("Submitted");
-    handleSubmit(e);
-  }
+  console.log("OBJECTIVES", moduleObjectives)
 
   const scrollToBottom = () => {
     if (scrollItemRef.current) {
@@ -55,59 +54,17 @@ const Chat: FC<ChatProps> = ({
     scrollToBottom();
   }, [messages]);
 
-  // Add an event listener that will submit the form when the user presses Enter.
-  useEffect(
-    function SubmitFormOnEnter(){
-      const handleEnter = (event: KeyboardEvent) => {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          console.log("Enter pressed")
-
-          // @ts-ignore
-          const form = document.getElementById("chat-form");
-
-          // @ts-ignore
-          form.dispatchEvent(new Event("submit", { 
-            "bubbles": true,
-            "cancelable": true, 
-          }));
-        }
-      };
-
-      window.addEventListener("keydown", handleEnter);
-
-      return () => {
-        window.removeEventListener("keydown", handleEnter);
-      };
-    }, []
-  )
-
-  const handleListing = () => {
-    // setInputValue(inputValue);
-    setIsActive(true);
-    microphoneRef.current.classList.add("listening");
-    resetTranscript();
-    SpeechRecognition.startListening({
-      continuous: true,
-      language: 'zh-CN',
-    });
-  };
-
-  const stopHandle = () => {
-    microphoneRef.current.classList.remove("listening");
-    SpeechRecognition.stopListening();
-    
-    console.log(transcript);
-    setInput(input+transcript);
-    setIsActive(false);
-    resetTranscript();
-  };
-
   return (
-    <div className="chat">
-      <div className="chat-wrapper">
-        <h1>Chat</h1>
-        <div className="chat-items">
+    <div className="flex h-full w-full bg-gray-100">
+
+      <div className="relative w-2/3 h-full px-20 py-11 flex flex-col">
+
+        <div className="flex-none pb-10">
+          <h1 className="font-title text-[40px] text-text">{moduleTitle ? capitalize(moduleTitle) : "Loading..."}</h1>
+          <p className="text-md text-text">Scenario: {moduleScenario ?? "Loading scenario..."}</p>
+        </div>
+
+        <div className="flex-grow">
           {messages.map((item) => (
             <ChatItem
               key={item.id}
@@ -115,29 +72,35 @@ const Chat: FC<ChatProps> = ({
               text={item.content}
             />
           ))}
-          <div ref={scrollItemRef} className="scroll-item" />
+          <div ref={scrollItemRef} className="pb-10" />
         </div>
-        <form id="chat-form" onSubmit={_handleSubmit}>
-          <div className="input-bar flex flexrow">
-            <input
-              type="text"
-              name="message"
-              placeholder="Send a message..."
-              value={input}
-              onChange={handleInputChange}
-            />
-            <div className="stt w-8">
-              <div className="input-button w-6" ref={microphoneRef} onClick={isActive ? stopHandle : handleListing}>
-                <img src={isActive ? startIcon : endIcon }/>
-              </div>
-            </div>
-            <SubmitButton />
-          </div>
-        </form>
-        
+
+        <div className="flex-none">
+        <ChatInput input={input} setInput={setInput} handleInputChange={handleInputChange} handleSubmit={handleSubmit}/>
+        </div>
       </div>
-      <div className="menu">
-        <p>settings</p>
+
+      <div className="relative w-1/3 h-full bg-background p-20">
+        <div className="flex flex-col"> 
+          <div className="w-full flex flex-row gap-4 justify-end">
+            <Link href="/">
+              <div className="p-4 bg-gray-300 group group hover:bg-danger duration-200 font-title rounded cursor-pointer">
+                  <FontAwesomeIcon
+                    icon={faAnchor}
+                    className="text-lg text-accent group-hover:text-[rgba(0,0,0,.5)] "
+                  />
+              </div>
+            </Link>
+          </div>
+          <div className="w-full flex flex-col gap-4">
+            <h2 className="font-serif text-[20px] font-bold">Objectives</h2>
+            {moduleObjectives && moduleObjectives.map((objective) => (
+              <ObjectiveCard objective={objective.objective} answer={objective.answer} />
+            ))}
+          </div>
+        </div>
+
+        {/* <ObjectivePanel />  */}
       </div>
     </div>
   );

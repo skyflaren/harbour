@@ -8,12 +8,19 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        title: ["Rowdies", "sans-serif"],
+        serif: ["Mate", "serif"],
+        sans: ["Assistant", "sans-serif"]
+      },
       colors: {
         'text': '#1c1c18',
         'background': '#efede6',
         'primary': '#5dc8b9',
         'secondary': '#d8c5c5',
+        'tertiary': '#c4b3b3',
         'accent': '#348aa4',
+        'danger': '#f2bbbb',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
