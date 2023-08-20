@@ -1,56 +1,45 @@
 import React, { FC, useState, useRef, useEffect, use } from "react";
 import ChatItem from "./ChatItem";
-import { Message } from "@/types";
+import { Message } from "ai";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
+import { VercelHandleInputChange, VercelHandleSubmit } from "@/types";
 
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import { SubmitButton } from "./SubmitButton";
 
 library.add(faPaperPlane);
-
+  
 interface ChatProps {
   messages: Message[];
-  dataChange: () => void;
+  input: string;
+  setInput: (input: string) => void;
+  handleInputChange: VercelHandleInputChange
+  handleSubmit: VercelHandleSubmit
 }
 
-const Chat: FC<ChatProps> = ({ messages, dataChange }) => {
-  useEffect(() => {
-    scrollToBottom();
-  });
-
+const Chat: FC<ChatProps> = ({ 
+  messages, 
+  input,
+  setInput,
+  handleInputChange,
+  handleSubmit 
+}) => {
   const [inputValue, setInputValue] = useState("");
   const scrollItemRef = useRef<HTMLDivElement | null>(null);
 
-  const handleInputChange = (tv: React.ChangeEvent<HTMLInputElement>["target"]["value"]) => {
-    setInputValue(tv);
-  };
+  const { transcript, resetTranscript } = useSpeechRecognition();
+  const [isActive, setIsActive] = useState(false); // 0 = Playing, 1 = Paused (Resume), 2 = Start
 
-  const handleSendClick = () => {
-    sendMessage();
-  };
+  const microphoneRef = useRef<any>(null);
+  const startIcon = "/images/icons/mic.svg";
+  const endIcon = "/images/icons/mic-off.svg";
 
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      sendMessage();
-    }
-  };
-
-  const sendMessage = () => {
-    if (inputValue.trim() !== "") {
-      messages.push({
-        id: messages.length,
-        image: "/images/profiles/user.jpeg",
-        name: "you",
-        text: inputValue,
-        user: true,
-      });
-      scrollToBottom();
-      setInputValue("");
-      dataChange();
-    }
-  };
+  const _handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log("Submitted");
+    handleSubmit(e);
+  }
 
   const scrollToBottom = () => {
     if (scrollItemRef.current) {
@@ -61,16 +50,40 @@ const Chat: FC<ChatProps> = ({ messages, dataChange }) => {
       });
     }
   };
-  
-  const { transcript, resetTranscript } = useSpeechRecognition();
-  const [isActive, setIsActive] = useState(false); // 0 = Playing, 1 = Paused (Resume), 2 = Start
 
-  const microphoneRef = useRef<any>(null);
-  const startIcon = "/images/icons/mic.svg";
-  const endIcon = "/images/icons/mic-off.svg";
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Add an event listener that will submit the form when the user presses Enter.
+  useEffect(
+    function SubmitFormOnEnter(){
+      const handleEnter = (event: KeyboardEvent) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          console.log("Enter pressed")
+
+          // @ts-ignore
+          const form = document.getElementById("chat-form");
+
+          // @ts-ignore
+          form.dispatchEvent(new Event("submit", { 
+            "bubbles": true,
+            "cancelable": true, 
+          }));
+        }
+      };
+
+      window.addEventListener("keydown", handleEnter);
+
+      return () => {
+        window.removeEventListener("keydown", handleEnter);
+      };
+    }, []
+  )
 
   const handleListing = () => {
-    setInputValue(inputValue);
+    // setInputValue(inputValue);
     setIsActive(true);
     microphoneRef.current.classList.add("listening");
     resetTranscript();
@@ -79,19 +92,16 @@ const Chat: FC<ChatProps> = ({ messages, dataChange }) => {
       language: 'zh-CN',
     });
   };
+
   const stopHandle = () => {
     microphoneRef.current.classList.remove("listening");
     SpeechRecognition.stopListening();
     
     console.log(transcript);
-    handleInputChange(inputValue+transcript);
+    setInput(input+transcript);
     setIsActive(false);
     resetTranscript();
   };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
 
   return (
     <div className="chat">
@@ -101,36 +111,30 @@ const Chat: FC<ChatProps> = ({ messages, dataChange }) => {
           {messages.map((item) => (
             <ChatItem
               key={item.id}
-              image={item.image}
-              name={item.name}
-              text={item.text}
-              user={item.user}
+              role={item.role}
+              text={item.content}
             />
           ))}
           <div ref={scrollItemRef} className="scroll-item" />
         </div>
-        <div className="input-bar flex flexrow">
-          <input
-            type="text"
-            name="message"
-            placeholder="Send a message"
-            value={inputValue}
-            onChange={(e) => handleInputChange(e.target.value)}
-            onKeyPress={handleKeyPress}
-          />
-          <div className="stt w-8">
-            <button className="input-button w-6" ref={microphoneRef} onClick={isActive ? stopHandle : handleListing}>
-              <img src={isActive ? startIcon : endIcon }/>
-            </button>
-            {/* <button onClick={handleReset}>Reset</button> */}
-          </div>
-          <button className="input-button" onClick={handleSendClick}>
-            <FontAwesomeIcon
-              icon={faPaperPlane}
-              className="text-gray-500 ml-2 cursor-pointer"
+        <form id="chat-form" onSubmit={_handleSubmit}>
+          <div className="input-bar flex flexrow">
+            <input
+              type="text"
+              name="message"
+              placeholder="Send a message..."
+              value={input}
+              onChange={handleInputChange}
             />
-          </button>
-        </div>
+            <div className="stt w-8">
+              <div className="input-button w-6" ref={microphoneRef} onClick={isActive ? stopHandle : handleListing}>
+                <img src={isActive ? startIcon : endIcon }/>
+              </div>
+            </div>
+            <SubmitButton />
+          </div>
+        </form>
+        
       </div>
       <div className="menu">
         <p>settings</p>
