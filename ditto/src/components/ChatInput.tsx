@@ -51,7 +51,7 @@ export const ChatInput = ({
   )
 
   return (
-    <div className="h-[100px] w-full flex items-center justify-center">
+    <div className="h-[80px] w-full flex items-center justify-center">
       <form 
         id="chat-form" 
         className="relative flex-row w-full" 

@@ -4,7 +4,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 type ObjectiveCardProps = {
   objective: string;
-  answer: string;
+  answer: string[];
 }
 
 export const ObjectiveCard = ({
@@ -16,7 +16,7 @@ export const ObjectiveCard = ({
   const [ isCorrect, setIsCorrect ] = useState<boolean>(false);
 
   useEffect(() => {
-    if (input === answer) {
+    if (answer.some(ans => ans.toLocaleLowerCase() == input.toLocaleLowerCase())) {
       setIsCorrect(true);
     }
   }, [input])

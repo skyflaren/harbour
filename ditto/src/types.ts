@@ -45,7 +45,7 @@ export interface OpenAIStreamPayload {
 
 export type Objective = {
   objective: string,
-  answer: string,
+  answer: string[],
 }
 
 export type ModuleJSON = {

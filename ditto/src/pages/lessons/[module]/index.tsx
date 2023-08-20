@@ -4,7 +4,7 @@ import { useJson } from '@/hooks/useJson';
 
 import { Chat } from "@/components";
 
-const moduleList = ["food", "directions", "restaurant"];
+const moduleList = ["directions", "restaurant", "clothing", "weather"];
 
 export default function Page() {
   const router = useRouter();
