@@ -3,7 +3,7 @@ import { Card, DropdownMenu } from "@/components";
 import Link from "next/link";
 import { natLangToCode } from "@/utils/lang";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faSailboat } from "@fortawesome/free-solid-svg-icons";
 
 const lessons = [
   {
@@ -88,51 +88,63 @@ export default function Home() {
 
           {/* <h1 className="font-title font-thin">harbour</h1> */}
         
-        <div className="main-bar-wrapper">
-          <div className="main-bar font-bold">
-            
-            <span className="text-gray-300 font-serif">Take me to the </span>
+        <div className="main-bar-wrapper  ">
+          <div className="bg-[rgba(0,0,0,0.8)] py-6 px-10 rounded-3xl">
+            <div className="main-bar font-bold ">
+              
+              <span className="text-gray-300 font-serif">Take me to the </span>
 
-            <form className="prompt-select">
+              <form className="prompt-select">
+                <DropdownMenu
+                  name={"setting"}
+                  options={lessons.map((item) => item.setting)}
+                  value={prompt}
+                  disabled={true}
+                  onSelect={setPrompt}
+                />
+                <div className="regenPrompt bg-primary" onClick={regenHandle}></div>
+              </form>
+
+              <span className="text-gray-300 font-serif">to practice</span>
+
               <DropdownMenu
-                name={"setting"}
-                options={lessons.map((item) => item.setting)}
-                value={prompt}
-                disabled={true}
-                onSelect={setPrompt}
+                name={"difficulty"}
+                options={difficulties}
+                value={difficulty}
+                onSelect={setDifficulty}
               />
-              <div className="regenPrompt bg-primary" onClick={regenHandle}></div>
-            </form>
-
-            <span className="text-gray-300 font-serif">to practice</span>
-
-            <DropdownMenu
-              name={"difficulty"}
-              options={difficulties}
-              value={difficulty}
-              onSelect={setDifficulty}
-            />
-            <DropdownMenu
-              name={"language"}
-              options={languages}
-              value={language}
-              onSelect={setLanguage}
-            />
-          </div>
-
-          {/* Fake form button that uses state to update url */}
-            
-          {selectedModuleName && 
+              <DropdownMenu
+                name={"language"}
+                options={languages}
+                value={language}
+                onSelect={setLanguage}
+              />
+            </div>
+            {/* Fake form button that uses state to update url */}
+            {selectedModuleName && 
             <Link href={`/lessons/${selectedModuleName}?lang=${natLangToCode.get(language)}`}>
-              <div className="text-white bg-primary flex flex-row gap-2 px-3 py-2 rounded text-xl items-center justify-center">
-                <p> Submit </p>
+              <div className="text-white bg-primary flex flex-row gap-2 px-4 py-3 rounded text-xl items-center justify-center">
+                <p> Ahoy! </p>
                 <FontAwesomeIcon
-                  icon={faPaperPlane}
+                  icon={faSailboat}
                   className="text-lg text-white cursor-pointer"
                 />
               </div>
             </Link>
-          }
+            }
+          </div>
+        </div>
+          
+        
+
+        <div className="footer-wrapper">
+          <div className="footer">
+            <span className="text-gray-600">Made with ♡ during Hackthe6ix 2023 by Justin, Kenneth, Nicole & Roseanna</span>
+            {/* <FontAwesomeIcon
+              icon={faGithub}
+              className="text-lg text-accent group-hover:text-[rgba(255,255,255,.25)] "
+            /> */}
+          </div>
         </div>
       </div>
     </div>
