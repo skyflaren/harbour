@@ -7,15 +7,17 @@ import { ChatSTT } from "./ChatSTT";
 interface ChatInputProps {
   input: string;
   setInput: (input: string) => void;
-  handleInputChange: VercelHandleInputChange
-  handleSubmit: VercelHandleSubmit
+  handleInputChange: VercelHandleInputChange;
+  handleSubmit: VercelHandleSubmit;
+  langCode: string;
 }
 
 export const ChatInput = ({
   input,
   setInput,
   handleInputChange,
-  handleSubmit
+  handleSubmit,
+  langCode,
 }: ChatInputProps) => {
 
   const _handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -68,7 +70,7 @@ export const ChatInput = ({
             className="border-none outline-none flex-grow bg-background"
           />
           <div className="flex-none flex items-center justify-center p-1">
-            <ChatSTT input={input} setInput={setInput}/>
+            <ChatSTT input={input} setInput={setInput} langCode={langCode}/>
           </div>
           <div className="flex-none flex items-center justify-center p-1">
             <SubmitButton />

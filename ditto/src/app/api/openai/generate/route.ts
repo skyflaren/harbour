@@ -4,6 +4,8 @@ import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { BytesOutputParser } from 'langchain/schema/output_parser';
 import { PromptTemplate } from 'langchain/prompts';
 import { fetchJson } from '@/utils/api/fetchJson';
+
+import { codeToEngLang } from '@/utils/lang';
  
 export const runtime = 'edge'
 
@@ -20,7 +22,11 @@ export async function POST(req: Request) {
   // Extract the `messages` from the body of the request
   const body = await req.json();
   const messages = body.messages ?? [] as VercelChatMessage[];
-  const { moduleName } = body;
+  const { moduleName, langCode } = body;
+
+  console.log("I GOT THIS CODE", langCode);
+
+  const language = codeToEngLang.get(langCode) || 'English';
 
   // Get the module content from the JSON file
   const moduleContent = await fetchJson(moduleName);
@@ -58,7 +64,7 @@ export async function POST(req: Request) {
   const chain = prompt.pipe(model).pipe(outputParser)
  
   const stream = await chain.stream({
-    language: "French", // This parameter exists inside character prompt which is parsed into the template, will this work? I don't know
+    language: language, // This parameter exists inside character prompt which is parsed into the template, will this work? I don't know
     chat_history: formattedPreviousMessages.join('\n'),
     input: currentMessageContent
   })

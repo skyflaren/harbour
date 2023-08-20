@@ -22,7 +22,7 @@ background: linear-gradient(189deg, rgba(27,52,64,1) 20%, rgba(10,18,27,1) 100%)
     z-index: 999;
     position:relative;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: end;
     position: relative;
   }
@@ -44,6 +44,7 @@ background: linear-gradient(189deg, rgba(27,52,64,1) 20%, rgba(10,18,27,1) 100%)
   .header h1 {
     font-size: 60px;
     padding-top: 200px;
+    filter: drop-shadow(0 0 1rem rgba(0,0,0,0.1))
   }
 
   .collapsible {
@@ -84,6 +85,7 @@ background: linear-gradient(189deg, rgba(27,52,64,1) 20%, rgba(10,18,27,1) 100%)
 
   .main-bar-wrapper{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 20%;

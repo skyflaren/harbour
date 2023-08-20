@@ -1,74 +1,82 @@
 import React, { use, useState, useEffect } from "react";
-import Collapsible from "@/components/Collapsible";
-import { Lesson } from "@/types";
 import { Card, DropdownMenu } from "@/components";
+import Link from "next/link";
+import { natLangToCode } from "@/utils/lang";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+
+const lessons = [
+  {
+    setting:"Store",
+    module: "clothing",
+  },
+  {
+    setting:"Street",
+    module: "directions",
+  },
+  {
+    setting: "Tech Conference",
+    module: "hackathons",
+  },
+  {
+    setting:"Park",
+    module: "hobbies",
+  },
+  {
+    setting: "Restaurant",
+    module: "restaurant",
+  },
+  {
+    setting: "Sports Bar",
+    module: "sports",
+  },
+  {
+    setting: "Airport",
+    module: "time",
+  },
+  {
+    setting: "National Park",
+    module: "weather",
+  },
+];
+
+const languages = Array.from(natLangToCode.keys());
+
+const difficulties: string[] = ["beginner", "intermediate", "fluent"];
+
 
 export default function Home() {
   const [prompt, setPrompt] = useState<string>("Randomize");
   const [difficulty, setDifficulty] = useState<string>("Randomize");
   const [language, setLanguage] = useState<string>("Randomize");
 
-  var lessons: Lesson[] = [
-    {
-      id: 0,
-      name: "Restaurant",
-      desc: "asdc",
-      image: "images/profiles/bot.jpeg",
-      link: "lessons/lesson1",
-    },
-    {
-      id: 1,
-      name: "Bar",
-      desc: "a",
-      image: "images/profiles/bot.jpeg",
-      link: "/lessons/lesson2",
-    },
-    {
-      id: 2,
-      name: "Airport",
-      desc: "b",
-      image: "images/profiles/bot.jpeg",
-      link: "/lessons/lesson3",
-    },
-    {
-      id: 3,
-      name: "Karen",
-      desc: "b",
-      image: "images/profiles/bot.jpeg",
-      link: "/lessons/lesson4",
-    },
-    {
-      id: 4,
-      name: "Toilet",
-      desc: "b",
-      image: "images/profiles/bot.jpeg",
-      link: "/lessons/lesson5",
-    },
-    {
-      id: 5,
-      name: "Lamb Sauce",
-      desc: "b",
-      image: "images/profiles/bot.jpeg",
-      link: "/lessons/lesson6",
-    },
-  ];
+  const [selectedModuleName, setSelectedModuleName] = useState<string>("");
 
-  var difficulties: string[] = ["beginner", "intermediate", "fluent"];
-  var languages: string[] = ["English", "Chinese", "French", "Roseanna"];
+  
+
 
   useEffect(() => {
-    setPrompt(lessons[Math.floor(Math.random() * lessons.length)]["name"]);
+    setPrompt(lessons[Math.floor(Math.random() * lessons.length)]["setting"]);
     setDifficulty(difficulties[Math.floor(Math.random() * difficulties.length)]);
     setLanguage(languages[Math.floor(Math.random() * languages.length)]);
   }, []);
 
-  
+  useEffect(() => {
+    // Look up in lessons to see if an object has a matching setting to the value in prompt
+    // If so, set selectedModuleName to the module value of that object
+    lessons.forEach((item) => {
+      if (item.setting === prompt) {
+        setSelectedModuleName(item.module);
+      }
+    });
+  }, [prompt])
+
 
   const regenHandle = () => {
     console.log("WOO")
-    let newPrompt = lessons[Math.floor(Math.random() * lessons.length)]["name"];
+    let newPrompt = lessons[Math.floor(Math.random() * lessons.length)]["setting"];
     while(newPrompt === prompt){
-      newPrompt = lessons[Math.floor(Math.random() * lessons.length)]["name"];
+      newPrompt = lessons[Math.floor(Math.random() * lessons.length)]["setting"];
     }
     setPrompt(newPrompt);
   };
@@ -84,40 +92,13 @@ export default function Home() {
       
       <div className="main-bar-wrapper">
         <div className="main-bar font-bold">
-          {/* <div className="language-select">
-            <DropdownMenu
-              title="Difficulty"
-              options={["Beginner", "Intermediate", "Fluent"]}
-              value={difficulty}
-              onSelect={setDifficulty}
-            />
-            <DropdownMenu
-              title="Language"
-              options={["English", "Chinese", "French", "Roseanna"]}
-              value={language}
-              onSelect={setLanguage}
-            />
-          </div> */}
           
           <span className="text-gray-300 font-serif">Take me to the </span>
 
           <form className="prompt-select">
-            {/* <div className="card-grid">
-              {lessons.map((item) => (
-                <a
-                  href={`${item.link}?language=${language}&difficulty=${difficulty}`}
-                >
-                  <Card
-                    key={item.id}
-                    image={item.image}
-                    name={item.name}
-                    desc={item.desc}
-                  />
-                </a>
-              ))}
-            </div> */}
             <DropdownMenu
-              options={lessons.map((item) => item.name)}
+              name={"setting"}
+              options={lessons.map((item) => item.setting)}
               value={prompt}
               disabled={true}
               onSelect={setPrompt}
@@ -128,31 +109,32 @@ export default function Home() {
           <span className="text-gray-300 font-serif">to practice</span>
 
           <DropdownMenu
-              options={difficulties}
-              value={difficulty}
-              onSelect={setDifficulty}
-            />
-            <DropdownMenu
-              options={languages}
-              value={language}
-              onSelect={setLanguage}
-            />
-
-          {/* <div className="card-grid">
-            {lessons.map((item) => (
-              <a
-                href={`${item.link}?language=${language}&difficulty=${difficulty}`}
-              >
-                <Card
-                  key={item.id}
-                  image={item.image}
-                  name={item.name}
-                  desc={item.desc}
-                />
-              </a>
-            ))}
-          </div> */}
+            name={"difficulty"}
+            options={difficulties}
+            value={difficulty}
+            onSelect={setDifficulty}
+          />
+          <DropdownMenu
+            name={"language"}
+            options={languages}
+            value={language}
+            onSelect={setLanguage}
+          />
         </div>
+
+        {/* Fake form button that uses state to update url */}
+          
+        {selectedModuleName && 
+          <Link href={`/lessons/${selectedModuleName}?lang=${natLangToCode.get(language)}`}>
+            <div className="text-white bg-primary flex flex-row gap-2 px-3 py-2 rounded text-xl items-center justify-center">
+              <p> Submit </p>
+              <FontAwesomeIcon
+                icon={faPaperPlane}
+                className="text-lg text-white cursor-pointer"
+              />
+            </div>
+          </Link>
+        }
       </div>
     </div>
   );
