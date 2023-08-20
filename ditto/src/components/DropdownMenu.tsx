@@ -1,11 +1,12 @@
 import React, { FC, useState } from "react";
 
 interface DropdownMenuProps {
-  title: string;
+  title?: string;
   options: string[];
   value: string;
   onSelect: (value: string) => void;
 }
+
 
 const DropdownMenu: FC<DropdownMenuProps> = ({
   options,
@@ -22,7 +23,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
         value={value}
         onChange={(e) => onSelect(e.target.value)}
       >
-        {options.map((element) => (
+        {options.map((element, idx) => (
           <option key={element} value={element}>
             {element}
           </option>
