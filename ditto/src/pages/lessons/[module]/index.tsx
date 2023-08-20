@@ -1,17 +1,15 @@
 import { useRouter } from "next/router";
-import { useChat } from 'ai/react'
-import { useState } from 'react';
-import { useJson } from '@/hooks/useJson';
+import { useChat } from "ai/react";
+import { useState } from "react";
+import { useJson } from "@/hooks/useJson";
 
-import { Chat } from '@/components';
+import { Chat } from "@/components";
 
-const moduleList = [
-  'food',
-]
+const moduleList = ["food", "directions", "restaurant"];
 
 const capitalize = (s: string) => {
   return s.charAt(0).toUpperCase() + s.slice(1);
-} 
+};
 
 export default function Page() {
   const router = useRouter();
@@ -20,30 +18,33 @@ export default function Page() {
   const getBody = () => {
     return {
       moduleName: moduleName,
-    }
-  }
+    };
+  };
   console.log("MODULE NAME", moduleName);
 
-  const { messages, input, handleInputChange, setInput, handleSubmit, isLoading } = useChat({
-    api: '/api/openai/generate',
+  const {
+    messages,
+    input,
+    handleInputChange,
+    setInput,
+    handleSubmit,
+    isLoading,
+  } = useChat({
+    api: "/api/openai/generate",
     body: getBody(),
-  })
+  });
 
   const json = useJson(moduleName);
 
   if (!moduleList.includes(moduleName)) {
-    return (
-      <div>
-        Sorry this module does not exist.
-      </div>
-    )
+    return <div>Sorry this module does not exist.</div>;
   }
 
   if (json.isLoading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
   if (json.isError) {
-    return <div>Error</div>
+    return <div>Error</div>;
   }
 
   const module = json.data;
@@ -95,12 +96,12 @@ export default function Page() {
 
     //   </div>
     // </div>
-    <Chat 
-      messages={messages} 
-      input={input} 
+    <Chat
+      messages={messages}
+      input={input}
       setInput={setInput}
-      handleInputChange={handleInputChange} 
+      handleInputChange={handleInputChange}
       handleSubmit={handleSubmit}
     />
-  )
+  );
 }
