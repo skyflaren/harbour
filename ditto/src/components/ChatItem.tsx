@@ -25,8 +25,8 @@ const ChatItem: FC<ChatProps> = ({
   // console.log("text", text, "loading?", loading)
 
   const imageSrc = new Map<string, string>([
-    ["user", "/images/profiles/user.jpeg"],
-    ["assistant", "/images/profiles/assistant.jpeg"],
+    ["user", "/images/profiles/user-pfp.png"],
+    ["assistant", "/images/profiles/assistant-pfp.png"],
     ["system", "/images/profiles/system.jpeg"],
     ["function", "/images/profiles/function.jpeg"] // This doesn't have an image right now
   ]);

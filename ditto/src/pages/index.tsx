@@ -3,7 +3,9 @@ import { Card, DropdownMenu } from "@/components";
 import Link from "next/link";
 import { natLangToCode } from "@/utils/lang";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faSailboat } from "@fortawesome/free-solid-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
+
 
 const lessons = [
   {
@@ -43,7 +45,6 @@ const lessons = [
 const languages = Array.from(natLangToCode.keys());
 
 const difficulties: string[] = ["beginner", "intermediate", "fluent"];
-
 
 export default function Home() {
   const [prompt, setPrompt] = useState<string>("Randomize");
@@ -93,7 +94,7 @@ export default function Home() {
       <div className="main-bar-wrapper">
         <div className="main-bar font-bold">
           
-          <span className="text-gray-300 font-serif">Take me to the </span>
+          <span className="text-gray-300 font-serif">Take me to a </span>
 
           <form className="prompt-select">
             <DropdownMenu
@@ -126,15 +127,24 @@ export default function Home() {
           
         {selectedModuleName && 
           <Link href={`/lessons/${selectedModuleName}?lang=${natLangToCode.get(language)}`}>
-            <div className="text-white bg-primary flex flex-row gap-2 px-3 py-2 rounded text-xl items-center justify-center">
-              <p> Submit </p>
+            <div className="text-white bg-primary flex flex-row gap-2 px-4 py-3 rounded text-xl items-center justify-center">
+              <p> ahoy! </p>
               <FontAwesomeIcon
-                icon={faPaperPlane}
+                icon={faSailboat}
                 className="text-lg text-white cursor-pointer"
               />
             </div>
           </Link>
         }
+      </div>
+      <div className="footer-wrapper">
+        <div className="footer">
+          <span className="text-gray-600">made with ♡ during hack the 6ix 2023 by justin, kenneth, nicole & roseanna</span>
+          {/* <FontAwesomeIcon
+            icon={faGithub}
+            className="text-lg text-accent group-hover:text-[rgba(255,255,255,.25)] "
+          /> */}
+        </div>
       </div>
     </div>
   );

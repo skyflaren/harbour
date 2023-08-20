@@ -88,7 +88,7 @@ background: linear-gradient(189deg, rgba(27,52,64,1) 20%, rgba(10,18,27,1) 100%)
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 20%;
+    height: 27.5%;
   }
 
   .main-bar{
@@ -98,7 +98,6 @@ background: linear-gradient(189deg, rgba(27,52,64,1) 20%, rgba(10,18,27,1) 100%)
     padding: 20px;
     justify-content: center;
     align-items: center;
-    margin: auto;
 
     > * {
       margin: 5px;
@@ -172,4 +171,15 @@ background: linear-gradient(189deg, rgba(27,52,64,1) 20%, rgba(10,18,27,1) 100%)
   input:focus, textarea:focus, select:focus{
     outline: none;
   }
+
+  .footer-wrapper{
+    position: relative;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    height: 12.5%;
+    padding-bottom: 10px;
+  }
+  // .footer > * {
+  // }
 }
