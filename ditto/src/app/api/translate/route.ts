@@ -7,14 +7,14 @@ export async function POST(req: Request) {
   const data = JSON.parse(await req.text());
   const selected = data.selected;
   const langCode = data.langCode;
-  return new Response(JSON.stringify(await translateText(selected, langCode)), {
+  return new Response(JSON.stringify(await translateText(selected, 'en')), {
     headers: { "Content-Type": "application/json" },
   });
 }
 
 async function translateText(
   text: string,
-  targetLanguage: string = "English"
+  targetLanguage: string = "en"
 ): Promise<MessageResponse> {
   const url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
   const response = await axios.post(url, {

@@ -4,6 +4,11 @@ import Link from "next/link";
 import { natLangToCode } from "@/utils/lang";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSailboat } from "@fortawesome/free-solid-svg-icons";
+<<<<<<< HEAD
+=======
+import { library } from "@fortawesome/fontawesome-svg-core";
+
+>>>>>>> d2fa8bf2e19efbc2a12d4151fc69757f505044e9
 
 const lessons = [
   {
@@ -43,7 +48,6 @@ const lessons = [
 const languages = Array.from(natLangToCode.keys());
 
 const difficulties: string[] = ["beginner", "intermediate", "fluent"];
-
 
 export default function Home() {
   const [prompt, setPrompt] = useState<string>("Randomize");
@@ -145,6 +149,15 @@ export default function Home() {
               className="text-lg text-accent group-hover:text-[rgba(255,255,255,.25)] "
             /> */}
           </div>
+        </div>
+      </div>
+      <div className="footer-wrapper">
+        <div className="footer">
+          <span className="text-gray-600">Made with ♡ during Hackthe6ix 2023 by Justin, Kenneth, Nicole & Roseanna</span>
+          {/* <FontAwesomeIcon
+            icon={faGithub}
+            className="text-lg text-accent group-hover:text-[rgba(255,255,255,.25)] "
+          /> */}
         </div>
       </div>
     </div>
