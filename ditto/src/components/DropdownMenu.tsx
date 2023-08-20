@@ -4,6 +4,7 @@ interface DropdownMenuProps {
   title?: string;
   options: string[];
   value: string;
+  disabled?: boolean;
   onSelect: (value: string) => void;
 }
 
@@ -11,6 +12,7 @@ interface DropdownMenuProps {
 const DropdownMenu: FC<DropdownMenuProps> = ({
   options,
   title,
+  disabled,
   value,
   onSelect,
 }) => {
@@ -22,6 +24,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
         id="items"
         value={value}
         onChange={(e) => onSelect(e.target.value)}
+        disabled={disabled===true? true : false}
       >
         {options.map((element, idx) => (
           <option key={element} value={element}>

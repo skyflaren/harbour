@@ -21,6 +21,7 @@ const config: Config = {
         'tertiary': '#c4b3b3',
         'accent': '#348aa4',
         'danger': '#f2bbbb',
+        'water': `#1b3440`,
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
