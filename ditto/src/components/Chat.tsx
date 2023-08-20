@@ -23,6 +23,9 @@ interface ChatProps {
   moduleTitle: string | undefined,
   moduleScenario: string | undefined,
   moduleObjectives: Objective[] | undefined,
+  aiResponseLoading: boolean,
+  lang: string,
+  langCode: string,
 }
 
 const Chat: FC<ChatProps> = ({ 
@@ -34,11 +37,13 @@ const Chat: FC<ChatProps> = ({
   moduleTitle,
   moduleScenario,
   moduleObjectives,
+  aiResponseLoading,
+  langCode,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const scrollItemRef = useRef<HTMLDivElement | null>(null);
 
-  console.log("OBJECTIVES", moduleObjectives)
+  // console.log("OBJECTIVES", moduleObjectives)
 
   const scrollToBottom = () => {
     if (scrollItemRef.current) {
@@ -65,18 +70,22 @@ const Chat: FC<ChatProps> = ({
         </div>
 
         <div className="flex-grow overflow-y-scroll custom-scrollbar">
-          {messages.map((item) => (
+          {messages.map((item, index) => {
+            return (
             <ChatItem
               key={item.id}
               role={item.role}
               text={item.content}
+              loading={(index === messages.length - 1) ? aiResponseLoading : false}
+              langCode={langCode}
             />
-          ))}
+            )
+          })}
           <div ref={scrollItemRef} className="pb-10" />
         </div>
 
         <div className="flex-none">
-        <ChatInput input={input} setInput={setInput} handleInputChange={handleInputChange} handleSubmit={handleSubmit}/>
+        <ChatInput input={input} setInput={setInput} handleInputChange={handleInputChange} handleSubmit={handleSubmit} langCode={langCode}/>
         </div>
       </div>
 

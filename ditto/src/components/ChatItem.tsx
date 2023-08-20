@@ -1,13 +1,18 @@
 import React, { FC, useEffect, useRef, useState } from "react";
+import { TextToSpeech } from "./TTS";
 
 interface ChatProps {
   role: string;
   text: string;
+  loading: boolean;
+  langCode: string;
 }
 
 const ChatItem: FC<ChatProps> = ({ 
   role,
-  text
+  text,
+  loading,
+  langCode,
 }) => {
   const contentRef = useRef<HTMLDivElement | null>(null);
 
@@ -16,6 +21,8 @@ const ChatItem: FC<ChatProps> = ({
   const [translated, setTranslated] = useState<string>("");
 
   const isUser = role === "user";
+
+  // console.log("text", text, "loading?", loading)
 
   const imageSrc = new Map<string, string>([
     ["user", "/images/profiles/user.jpeg"],
@@ -57,6 +64,7 @@ const ChatItem: FC<ChatProps> = ({
         },
         body: JSON.stringify({
           selected,
+          langCode,
         }),
       });
 
@@ -82,6 +90,11 @@ const ChatItem: FC<ChatProps> = ({
           <div className="inline-block w-auto max-w-lg bg-gray-200 px-5 py-2 rounded-md" ref={textRef}>
             {text}
           </div>
+          {!loading && (
+            <div className="self-center">
+              <TextToSpeech text={text} langCode={langCode}/>
+            </div>
+          )}
         </div>
       </div>
 

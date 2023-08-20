@@ -6,11 +6,13 @@ import { faMicrophone, faMicrophoneSlash } from "@fortawesome/free-solid-svg-ico
 type ChatSTTProps = {
   input: string;
   setInput: (input: string) => void;
+  langCode: string;
 }
 
 export const ChatSTT = ({
   input,
   setInput,
+  langCode,
 }: ChatSTTProps) => {
   const { transcript, resetTranscript } = useSpeechRecognition();
 
@@ -25,7 +27,7 @@ export const ChatSTT = ({
     resetTranscript();
     SpeechRecognition.startListening({
       continuous: true,
-      language: 'fr',
+      language: langCode,
     });
   };
 
@@ -33,7 +35,7 @@ export const ChatSTT = ({
     microphoneRef.current.classList.remove("listening");
     SpeechRecognition.stopListening();
     
-    console.log(transcript);
+    // console.log(transcript);
     setInput(input+transcript);
     setIsActive(false);
     resetTranscript();

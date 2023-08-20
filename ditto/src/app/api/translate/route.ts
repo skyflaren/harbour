@@ -4,8 +4,10 @@ import axios from "axios";
 const API_KEY = process.env.GOOGLE_API_KEY;
 
 export async function POST(req: Request) {
-  const data = JSON.parse(await req.text()).selected;
-  return new Response(JSON.stringify(await translateText(data, "en")), {
+  const data = JSON.parse(await req.text());
+  const selected = data.selected;
+  const langCode = data.langCode;
+  return new Response(JSON.stringify(await translateText(selected, langCode)), {
     headers: { "Content-Type": "application/json" },
   });
 }
