@@ -57,14 +57,14 @@ const Chat: FC<ChatProps> = ({
   return (
     <div className="flex h-full w-full bg-gray-100">
 
-      <div className="relative w-2/3 h-full px-20 py-11 flex flex-col">
+      <div className="relative w-2/3 h-full max-h-full px-20 py-11 flex flex-col">
 
         <div className="flex-none pb-10">
           <h1 className="font-title text-[40px] text-text">{moduleTitle ? capitalize(moduleTitle) : "Loading..."}</h1>
           <p className="text-md text-text">Scenario: {moduleScenario ?? "Loading scenario..."}</p>
         </div>
 
-        <div className="flex-grow">
+        <div className="flex-grow overflow-y-scroll custom-scrollbar">
           {messages.map((item) => (
             <ChatItem
               key={item.id}
@@ -80,7 +80,7 @@ const Chat: FC<ChatProps> = ({
         </div>
       </div>
 
-      <div className="relative w-1/3 h-full bg-background p-20">
+      <div className="relative w-1/3 h-full bg-background p-20 overflow-y-scroll custom-scrollbar">
         <div className="flex flex-col"> 
           <div className="w-full flex flex-row gap-4 justify-end">
             <Link href="/">
@@ -95,7 +95,7 @@ const Chat: FC<ChatProps> = ({
           <div className="w-full flex flex-col gap-4">
             <h2 className="font-serif text-[20px] font-bold">Objectives</h2>
             {moduleObjectives && moduleObjectives.map((objective) => (
-              <ObjectiveCard objective={objective.objective} answer={objective.answer} />
+              <ObjectiveCard objective={objective.objective} answer={objective.answer ?? []} />
             ))}
           </div>
         </div>

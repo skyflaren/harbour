@@ -6,6 +6,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #d0d4e1;
+    border-radius: 50px;
+    height: auto;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #348aa4;
+  }
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

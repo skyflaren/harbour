@@ -68,31 +68,33 @@ const ChatItem: FC<ChatProps> = ({
   };
 
   return (
-    <div className={`chat-item ${isUser ? "right-user" : "left-user"}`}>
-      <div className="content-wrapper">
+    <div className={`flex flex-col align-bottom gap-2 relative py-2 w-full`}>
+      <div className="block">
         <div
-          className="content"
+          className="w-full flex flex-row gap-4"
           ref={contentRef}
           onMouseUp={handleTextHighlight}
         >
-          {/* <div className="name">{name}</div> */}
-          <div className="text" ref={textRef}>
+          <div className="self-end w-8 h-8">
+            <img className="rounded-full" src={imageSrc.get(role)} />
+          </div>
+
+          <div className="inline-block w-auto max-w-lg bg-gray-200 px-5 py-2 rounded-md" ref={textRef}>
             {text}
           </div>
         </div>
-        <div className="image">
-          <img src={imageSrc.get(role)} />
-        </div>
       </div>
-      <div className="translate">
+
+      <div className="ml-16 w-96 text-sm text-left">
         {selected != "" && (
-          <button className="translateButton" onClick={getTranslation}>
+          <button className="h-4 text-sm text-accent" onClick={getTranslation}>
             Translate highlighted text
           </button>
         )}
         {translated != "" && <p>{translated}</p>}
       </div>
     </div>
+
   );
 };
 

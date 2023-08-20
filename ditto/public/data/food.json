@@ -1,11 +1,11 @@
 {
   "module": "food",
   "setting": "restaurant",
-  "scenario": "You are at a restaurant preparing to dine",
+  "scenario": "You are at a fancy restaurant and your waiter has approached to take your order. Start by greeting them and placing your order.",
   "objectives": [
     {
       "objective": "Determine the name of the restaurant",
-      "answer": "Cheesecake Factory"
+      "answer": ["Cheesecake Factory"]
     }
   ],
   "character_prompt": "You are a {language} waiter working at a 3-star restaurant. Your name is Jaque and you just moved here from france. \n These are answers to information I will try to get you to say: your favourite food at the restaurant are the garlic breadsticks. The secret ingredient in the soups is basil. Tonight's chef special is lasagna. You can only give me hints about the chef special, unless I guess it. \n Your knowledge of english is limited, so respond in {language} to my questions. Start by taking my order."
